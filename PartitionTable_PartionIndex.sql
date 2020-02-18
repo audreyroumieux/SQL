@@ -53,12 +53,12 @@ TO FILEGROUP DATA_PART_03;
 
 
 /*************** 2  - CREATE PARTITION FUNCTION **************/
-IF EXISTS (SELECT name FROM sys.partition_functions WHERE name = 'F_P_FAC_DATE')
+IF EXISTS (SELECT name FROM sys.partition_functions WHERE name = 'Func_Part_Name')
 	BEGIN
-		DROP PARTITION FUNCTION F_P_FAC_DATE
+		DROP PARTITION FUNCTION Func_Part_Name
 	END
 	
-CREATE PARTITION FUNCTION F_P_FAC_DATE  ( input_parameter_type )  
+CREATE PARTITION FUNCTION Func_Part_Name  ( input_parameter_type )  
 AS 
 	RANGE [ LEFT | RIGHT ] 
 	FOR VALUES ( [ valeur_pivot_1 ,... ,valeur_pivot_n ] )   
@@ -74,7 +74,7 @@ IF EXISTS (SELECT name FROM sys.partition_schemes WHERE name = 'F_S_FAC_DATE')
 	END
 
 CREATE PARTITION SCHEME F_S_FAC_DATE  
-AS PARTITION F_P_FAC_DATE
+AS PARTITION Func_Part_Name
 TO (DATA_PART_01, DATA_PART_02, DATA_PART_03);
 
 
@@ -98,4 +98,12 @@ SELECT object_name(object_id),*
 FROM sys.dm_db_partition_stats where object_name(object_id)='TableName_PARTITION';
 
 --https://technet.microsoft.com/fr-fr/ms188730(v=sql.15)
+
+/****** Triouver le nombre de partition existant avant la valeur expression ********/
+SELECT $PARTITION.Func_Part_Name (expression);
+
+
+/*****/
+SELECT * FROM sys.partition_range_values;
+
 
