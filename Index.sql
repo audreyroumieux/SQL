@@ -14,9 +14,9 @@ CREATE {UNIQUE} INDEX index_nom ON tableName {(`colonne1`, `colonne2` , ...)};
 
 
 	-- Convention de nommage:
---Préfixe “PK_” pour Primary Key
---Préfixe “FK_” pour Foreign Key
---Préfixe “UK_” pour Unique Key
---Préfixe “UX_” pour Unique Index
---Préfixe “IX_” pour chaque autre IndeX
+-- Préfixe “PK_” pour Primary Key
+-- Préfixe “FK_” pour Foreign Key
+-- Préfixe “UK_” pour Unique Key
+-- Préfixe “UX_” pour Unique Index
+-- Préfixe “IX_” pour chaque autre IndeX
 

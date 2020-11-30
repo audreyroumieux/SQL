@@ -8,8 +8,6 @@ HAVING   COUNT(*) > 1;
 
 
 
-
-
 -- Doublon relatif
 
 SELECT DISTINCT *
@@ -23,27 +21,27 @@ WHERE EXISTS (
               AND   t1.champ3 = t2.champ3 );
 
 
-SELECT dbl.*, p.[WBS] 
+SELECT dbl.*, p.[col1] 
 FROM [core].[Worksites] p 
   JOIN (
-SELECT   COUNT(*) AS nbr_doublon, [WBS], [COCD], [DivisionID]
+SELECT   COUNT(*) AS nbr_doublon, [col1], [col2], [col3]
 FROM    [core].[Worksites]
-GROUP BY [WBS], [COCD], [DivisionID]
-HAVING   COUNT(*) > 1) dbl ON p.[WBS] = dbl.[WBS] AND p.[COCD] = dbl.[COCD] AND p.[DivisionID] = dbl.[DivisionID];
-
+GROUP BY [col1], [col2], [col3]
+HAVING   COUNT(*) > 1) dbl ON p.[col1] = dbl.[col1] 
+						AND p.[col2] = dbl.[col2] 
+						AND p.[col3] = dbl.[col3];
 
 
 -------------------
 
-
 SELECT *, ROW_NUMBER() OVER (PARTITION BY champ1, champ2, champ3 ORDER BY champ2, champ4) as rno
-FROM  [staging].[TimeEntries]
-
+FROM  [stg].[mytable];
 
 
 ----------------
-SELECT *, RANK() OVER (PARTITION BY champ1, champ2, champ3 ORDER BY champ2, champ4) as rno
 
+SELECT *, RANK() OVER (PARTITION BY champ1, champ2, champ3 ORDER BY champ2, champ4) as rno
+FROM  [stg].[mytable];
 
 
 

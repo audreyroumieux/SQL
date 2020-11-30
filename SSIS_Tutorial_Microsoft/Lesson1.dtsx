@@ -1,0 +1,542 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/20/2020 3:23:18 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AZ0131"
+  DTS:CreatorName="AzureAD\AudreyRoumieux"
+  DTS:DTSID="{7598F0DC-65FF-463C-B1B1-F8A2C4AE470B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.132"
+  DTS:LocaleID="1036"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{AE2FEF62-157B-42CA-AA2A-C75C81B7692D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Extract Sample Currency Data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tâche de flux de données"
+      DTS:DTSID="{3FFD15ED-60B1-4E4A-8401-EDED7634F2C0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="1036"
+      DTS:ObjectName="Extract Sample Currency Data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Extract Sample Currency Data\Conversion de données"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Conversion de données;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;0"
+              description="Conversion de données"
+              name="Conversion de données"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Extract Sample Currency Data\Conversion de données.Inputs[Entrée de conversion de données]"
+                  name="Entrée de conversion de données">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Extract Sample Currency Data\Conversion de données.Inputs[Entrée de conversion de données].Columns[CurrencyDate]"
+                      cachedDataType="dbDate"
+                      cachedName="CurrencyDate"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[CurrencyDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie de conversion de données]"
+                  exclusionGroup="1"
+                  name="Sortie de conversion de données"
+                  synchronousInputId="Package\Extract Sample Currency Data\Conversion de données.Inputs[Entrée de conversion de données]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie de conversion de données].Columns[Copie de CurrencyDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie de conversion de données].Columns[Copie de CurrencyDate]"
+                      name="Copie de CurrencyDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie la colonne d'entrée utilisée comme source de données pour la conversion."
+                          name="SourceInputColumnLineageID">#{Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[CurrencyDate]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si la colonne utilise les routines d'analyse les plus rapides, avec des paramètres régionaux neutres."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie d'erreur de conversion de données]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de conversion de données"
+                  synchronousInputId="Package\Extract Sample Currency Data\Conversion de données.Inputs[Entrée de conversion de données]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie d'erreur de conversion de données].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie d'erreur de conversion de données].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie d'erreur de conversion de données].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie d'erreur de conversion de données].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Extract Sample Currency Data\Destination ODBC"
+              componentClassID="Microsoft.SSISODBCDst"
+              contactInfo="Destination ODBC;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;1"
+              description="Destination ODBC"
+              localeId="1036"
+              name="Destination ODBC"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Nom de la table à extraire."
+                  expressionType="Notify"
+                  name="TableName">"dbo"."FactCurrencyRate"</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifiez le nombre de lignes extraites par lot."
+                  expressionType="Notify"
+                  name="BatchSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de lignes insérées dans la même transaction."
+                  expressionType="Notify"
+                  name="TransactionSize">1000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Détermine l'allocation de taille de segment pour les colonnes LOB"
+                  expressionType="Notify"
+                  name="LobChunkSize">32768</property>
+                <property
+                  dataType="System.Int32"
+                  description="Durée d'attente, en secondes, de l'exécution d'une instruction SQL avant le retour à l'application."
+                  expressionType="Notify"
+                  name="StatementTimeout">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Page de codes à utiliser quand les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  expressionType="Notify"
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Int32"
+                  description="Méthode utilisée pour insérer des données. Les valeurs possibles sont « En lot » ou « Ligne par ligne »."
+                  expressionType="Notify"
+                  name="InsertMethod">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Type de données ODBC C pour la liaison de données numériques."
+                  expressionType="Notify"
+                  name="BindNumericAs">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Détermine la façon dont le composant lie les colonnes des types de chaîne (multi)octet (par ex., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). Les options sont : Unicode (SQL_C_WCHAR) et ANSI (SQL_C_CHAR)."
+                  expressionType="Notify"
+                  name="BindCharColumnsAs">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract Sample Currency Data\Destination ODBC.Connections[ODBCConnection]"
+                  connectionManagerID="{74FBC0A0-3FE3-4047-A656-01185D2E4524}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[PostgreSQL35W.postgres]"
+                  description="Connexion ODBC en cours d'exécution utilisée pour accéder à la base de données."
+                  name="ODBCConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de la destination ODBC"
+                  truncationRowDisposition="FailComponent">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].Columns[AverageRate]"
+                      cachedDataType="r4"
+                      cachedName="AverageRate"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[AverageRate]"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[AverageRate]" />
+                    <inputColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].Columns[EndOfDayRate]"
+                      cachedDataType="r4"
+                      cachedName="EndOfDayRate"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[EndOfDayRate]"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[EndOfDayRate]" />
+                    <inputColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].Columns[CurrencyID]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="CurrencyID"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[CurrencyKey]"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[CurrencyID]" />
+                    <inputColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].Columns[Copie de CurrencyDate]"
+                      cachedDataType="dbDate"
+                      cachedName="Copie de CurrencyDate"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[DateKey]"
+                      lineageId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie de conversion de données].Columns[Copie de CurrencyDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[AverageRate]"
+                      dataType="numeric"
+                      name="AverageRate"
+                      precision="20"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[CurrencyKey]"
+                      dataType="nText"
+                      name="CurrencyKey" />
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[EndOfDayRate]"
+                      dataType="numeric"
+                      name="EndOfDayRate"
+                      precision="20"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC].ExternalColumns[DateKey]"
+                      dataType="dbDate"
+                      name="DateKey" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Extract Sample Currency Data\Destination ODBC.Outputs[Sortie d'erreur de la destination ODBC]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de la destination ODBC"
+                  synchronousInputId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Outputs[Sortie d'erreur de la destination ODBC].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract Sample Currency Data\Destination ODBC.Outputs[Sortie d'erreur de la destination ODBC].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Destination ODBC.Outputs[Sortie d'erreur de la destination ODBC].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract Sample Currency Data\Destination ODBC.Outputs[Sortie d'erreur de la destination ODBC].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Extract Sample Currency Data\Extract Sample Currency Data"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Source du fichier plat;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;1"
+              description="Source du fichier plat"
+              localeId="1033"
+              name="Extract Sample Currency Data"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Spécifie si les colonnes dont la longueur est zéro sont traitées comme des valeurs NULL."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom d'une colonne de sortie contenant le nom du fichier. Si aucun nom n'est spécifié, aucune colonne de sortie contenant le nom du fichier ne sera générée."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Connections[FlatFileConnection]"
+                  connectionManagerID="{87435624-7F42-4199-8164-5588FB345EA5}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Sample Flat File Source Data]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat]"
+                  name="Sortie de source de fichier plat">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[AverageRate]"
+                      dataType="r4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[AverageRate]"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[AverageRate]"
+                      name="AverageRate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si la colonne utilise les routines d'analyse les plus rapides, avec des paramètres régionaux neutres."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si les données sont au format binaire."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[CurrencyID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[CurrencyID]"
+                      length="3"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[CurrencyID]"
+                      name="CurrencyID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si la colonne utilise les routines d'analyse les plus rapides, avec des paramètres régionaux neutres."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si les données sont au format binaire."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[CurrencyDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[CurrencyDate]"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[CurrencyDate]"
+                      name="CurrencyDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si la colonne utilise les routines d'analyse les plus rapides, avec des paramètres régionaux neutres."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si les données sont au format binaire."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[EndOfDayRate]"
+                      dataType="r4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[EndOfDayRate]"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].Columns[EndOfDayRate]"
+                      name="EndOfDayRate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si la colonne utilise les routines d'analyse les plus rapides, avec des paramètres régionaux neutres."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indique si les données sont au format binaire."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[AverageRate]"
+                      dataType="r4"
+                      name="AverageRate" />
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[CurrencyID]"
+                      dataType="wstr"
+                      length="3"
+                      name="CurrencyID" />
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[CurrencyDate]"
+                      dataType="dbDate"
+                      name="CurrencyDate" />
+                    <externalMetadataColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat].ExternalColumns[EndOfDayRate]"
+                      dataType="r4"
+                      name="EndOfDayRate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie d'erreur de source de fichier plat]"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de source de fichier plat">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie d'erreur de source de fichier plat].Columns[Colonne de sortie d'erreur de source de fichier plat]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Colonne de sortie d'erreur de source de fichier plat"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie d'erreur de source de fichier plat].Columns[Colonne de sortie d'erreur de source de fichier plat]"
+                      name="Colonne de sortie d'erreur de source de fichier plat" />
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie d'erreur de source de fichier plat].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie d'erreur de source de fichier plat].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie d'erreur de source de fichier plat].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie d'erreur de source de fichier plat].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Extract Sample Currency Data.Paths[Sortie de conversion de données]"
+              endId="Package\Extract Sample Currency Data\Destination ODBC.Inputs[Entrée de la destination ODBC]"
+              name="Sortie de conversion de données"
+              startId="Package\Extract Sample Currency Data\Conversion de données.Outputs[Sortie de conversion de données]" />
+            <path
+              refId="Package\Extract Sample Currency Data.Paths[Sortie de source de fichier plat]"
+              endId="Package\Extract Sample Currency Data\Conversion de données.Inputs[Entrée de conversion de données]"
+              name="Sortie de source de fichier plat"
+              startId="Package\Extract Sample Currency Data\Extract Sample Currency Data.Outputs[Sortie de source de fichier plat]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="224,42.6666666666667"
+          Id="Package\Extract Sample Currency Data"
+          TopLeft="69.9999989569187,82.1052647033227" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Extract Sample Currency Data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="224,42.6666666666667"
+          Id="Package\Extract Sample Currency Data\Extract Sample Currency Data"
+          TopLeft="119.374998221174,129.315791907733" />
+        <NodeLayout
+          Size="224,42.6666666666667"
+          Id="Package\Extract Sample Currency Data\Destination ODBC"
+          TopLeft="119.374998221174,303.1052688631" />
+        <NodeLayout
+          Size="224,42.6666666666667"
+          Id="Package\Extract Sample Currency Data\Conversion de données"
+          TopLeft="119.374998221174,216.210530385416" />
+        <EdgeLayout
+          Id="Package\Extract Sample Currency Data.Paths[Sortie de source de fichier plat]"
+          TopLeft="231.374998221174,171.9824585744">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.2280718110165"
+              Start="0,0"
+              End="0,36.7280718110165">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.7280718110165" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Extract Sample Currency Data.Paths[Sortie de conversion de données]"
+          TopLeft="231.374998221174,258.877197052083">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.2280718110165"
+              Start="0,0"
+              End="0,36.7280718110165">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.7280718110165" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Le flux de données extrait les données d'un fichier, &#xD;&#xA;recherche des valeurs dans la colonne CurrencyKey &#xD;&#xA;de la table DimCurrency et dans la colonne DateKey &#xD;&#xA;de la table DimDate, puis écrit les données dans la &#xD;&#xA;table NewFactCurrencyRate."
+          ParentId="Package\Extract Sample Currency Data"
+          FontInfo="{assembly:Null}"
+          Size="306.666666666667,104"
+          Id="973c1f34-fe48-49da-97bc-f5558068cd7e"
+          TopLeft="89.3749986682087,15.7368424014702" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract Sample Currency Data\Destination ODBC">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
