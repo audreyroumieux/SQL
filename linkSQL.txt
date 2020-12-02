@@ -1,0 +1,46 @@
+tuto edx : 
+https://courses.edx.org/courses/course-v1:Microsoft+DAT201x+1T2019/courseware/5ae50c96d5a0476d866e160f6a0bcc10/43527fbd293649d7811f2ec8fe3f4086/7?activate_block_id=block-v1%3AMicrosoft%2BDAT201x%2B1T2019%2Btype%40vertical%2Bblock%4032849b4ba97748ae83771c446197d4e9 
+
+
+https://www.mssqltips.com/sqlservertip/3680/introduction-to-sql-server-temporal-tables/
+
+https://www.tutorialspoint.com/t_sql/t_sql_transactions.htm
+
+https://www.tutorialgateway.org/sql/
+
+https://www.guru99.com/sql-interview-questions-answers.html
+
+Test yourself :
+https://www.toptal.com/sql/interview-questions
+
+
+Documentation BDD:
+SQL Server
+https://docs.microsoft.com/en-us/sql/sql-server/tutorials-for-sql-server-2016?view=sql-server-ver15
+
+MySQL
+https://dev.mysql.com/doc/
+
+Postgresql
+https://docs.postgresql.fr/
+
+
+
+
+
+
+U-SQL:
+
+https://msdn.microsoft.com/en-us/azure/data-lake-analytics/u-sql/u-sql-language-reference 
+https://saveenr.gitbooks.io/usql-tutorial/content/getting-started/your-first-usql-script.html 
+https://docs.microsoft.com/fr-fr/azure/data-lake-analytics/data-lake-analytics-u-sql-get-started 
+Introduction :
+https://www.youtube.com/watch?v=IalR205j9fA 
+http://www.sqlservercentral.com/stairway/142480/ 
+https://dzone.com/articles/azure-data-lakes-and-u-sql-select-transformation-rowsets 
+
+http://aka.ms/usql-intro    http://aka.ms/usql-reference    http://usql.io 
+
+
+Azure SQL
+https://www.youtube.com/playlist?list=PLlrxD0HtieHi5c9-i_Dnxw9vxBY-TqaeN&WT.mc_id=azuresql4beg_azuresql-ch9-niner
