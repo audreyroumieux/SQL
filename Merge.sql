@@ -58,26 +58,25 @@ DO UPDATE SET Description = EXCLUDED.Description_new_value || ';' || [DimTables]
 -- 6 - COMMIT, en libérant le verrou
 /********************************************************************/
 
-BEGIN;
+BEGIN
 
-CREATE TEMPORARY TABLE Source(id integer, column_1 text, column_2 text);
+CREATE TEMPORARY TABLE my_source(id integer, column_1 text, column_2 text);
 
-INSERT INTO Source(id, column_1, column_2) VALUES (2, 'John', 'Do'), (3, 'Alan', 'Turing');
+INSERT INTO my_source(id, column_1, column_2) VALUES (2, 'John', 'Do'), (3, 'Alan', 'Turing');
 
 LOCK TABLE [dbo].[DimTables] IN EXCLUSIVE MODE;
 
 UPDATE [dbo].[DimTables]
-SET column_1 = Source.column_1,
-column_2 = Source.column_2
-FROM Source
-WHERE Source.id = [DimTables].id;
+SET column_1 = my_source.column_1,
+column_2 = my_source.column_2
+FROM my_source
+WHERE my_source.id = [DimTables].id;
 
 INSERT INTO [dbo].[DimTables]
-SELECT Source.id, Source.column_1, Source.column_2
-FROM Source
-LEFT OUTER JOIN [dbo].[DimTables] ON ([DimTables].id = Source.id)
+SELECT my_source.id, my_source.column_1, my_source.column_2
+FROM my_source
+LEFT OUTER JOIN [dbo].[DimTables] ON ([DimTables].id = my_source.id)
 WHERE [DimTables].id IS NULL;
 
 COMMIT;
-
 
