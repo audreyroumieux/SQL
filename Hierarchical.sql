@@ -6,13 +6,40 @@ WITH RECURSIVE temp (n, fact) AS
         WHERE n < 9)
 SELECT * FROM temp;
 
--- CONNECT BY
+------
+WITH RECURSIVE table_temp_n(empid, name) AS (
+  --initial Subquery
+  SELECT empid, name
+  FROM emp
+  WHERE name = 'Joan'
+  UNION ALL
+  --recursive subquery
+  SELECT nplus1.empid, nplus1.name
+  FROM emp as nplus1, table_temp_n
+  WHERE table_temp_n.empid =nplus1.mgrid)
 
+SELECT name FROM table_temp_n;
+
+/************* <=> CONNECT BY (sous ORACLE) ************/
 SELECT employee_id, last_name, manager_id
 FROM employees
 CONNECT BY PRIOR employee_id = manager_id;
    
-   
+SELECT EMPLOYEE_DATA.*, SYS_CONNECT_BY_PATH(MRG_USERNAME, ',') "Path"
+FROM EMPLOYEE_DATA
+START WITH MGR_USERNAME = 'ceo'
+CONECT BY NOCYCLE prior EE_USERNAME = MGR_USERNAME
+
+-- <=>
+WITH cte AS (
+  SELECT e.*, mgr.EE_USERNAME AS Path
+  FROM EMPLOYEE_DATA AS mgr
+  JOIN EMPLOYEE_DATA AS e ON mgr.EE_USERNAME = e.MGR_USERNAME
+  )
+SELECT * FROM cte
+-- OPTION (MAXRECURSTION 200)  --if you need a different value
+;
+  
    
 /* Convert this
 L1   L1DESC  L2   PaysD.     L3    DepartementD.  L4         Ville
