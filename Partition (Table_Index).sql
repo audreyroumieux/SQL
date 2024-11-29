@@ -50,7 +50,11 @@ ALTER DATABASE BaseName
              FILEGROWTH = 10 MB)  
 TO FILEGROUP DATA_PART_03;
 
-
+-- verify the filegroup assignment
+SELECT name as finename,
+	physical_name as file_path,
+FROM sys.database_files
+WHERE type_desc = 'ROWS';
 
 /*************** 2  - CREATE PARTITION FUNCTION **************/
 IF EXISTS (SELECT name FROM sys.partition_functions WHERE name = 'Func_Part_Name')
@@ -62,7 +66,6 @@ CREATE PARTITION FUNCTION Func_Part_Name  ( input_parameter_type )
 AS 
 	RANGE [ LEFT | RIGHT ] 
 	FOR VALUES ( [ valeur_pivot_1 ,... ,valeur_pivot_n ] )   
-
 
 
 /*************** 3 - création du schéma de partitionnement **************/
