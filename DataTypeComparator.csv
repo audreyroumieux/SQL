@@ -32,3 +32,15 @@ Unicode string;(DT_NTEXT);NTEXT;TEXT;;;
 ;;;;;;
 ;;IDENTITY(<start _value>,<increment>);SERIAL;AUTO_INCREMENT=<Start_value>;AUTOINCREMENT(<start _value>,<increment>);
 ;;ISNULL(exp, eplacement);COALESCE(exp, eplacement);;;Function replace NULL with specified value
+;;;;;;
+;;;;;;
+;;;;;;
+Convert date (jj/mm/aaaa) en text au format aaaammjj;'=TEST(B2;"aaaammjj");;;;;
+Générer une date aléatoirement;'=ALEA.ENTRE.BORNES(DATE(2023;07;30));;;;;
+;'=SERIE.JOUR.OUVRE(ALEA.ENTRE.BORNES(DATE(2023;07;1);DATE(2023;07;30))-1;1);;;;;
+Générer un nombre entier entre 0 et 100;'=ENT(ALEA()*100);;;;;
+;'=ALEA.ENTRE.BORNES(1;100);;;;;
+Fraçais NB;ANGLAIS COUNT;;;;;
+Fraçais NB.SI;ANGLAIS COUNTIF;;;;;
+Fraçais NBCAR;ANGLAIS LEN;;;;;
+Fraçais NBVAL;ANGLAIS COUNTA;;;;;
