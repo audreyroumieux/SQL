@@ -1,0 +1,83 @@
+USE [toqlaDB]
+GO
+ 
+CREATE TABLE [dwh].[DimCalendrier](
+	[IdCalendar] [int] NOT NULL,
+	[Date] [date] NULL,
+	[Year] [int] NULL,
+	[Month] [int] NULL,
+	[Day] [int] NULL,
+	[YearMonth] [varchar](7) NULL,
+	[MonthName] [varchar](10) NULL,
+	[DayName] [varchar](10) NULL,
+	[DayOfWeek] [int] NULL,
+	[DayOfYear] [int] NULL,
+	[Quarter] [int] NULL,
+	[YearMonthOrder] [int] NULL,
+	[YearMonthLabel] [varchar](7) NULL,
+CONSTRAINT [pk_DimCalendrier] PRIMARY KEY CLUSTERED 
+(
+	[IdCalendar] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+ 
+ 
+/****** ******/
+CREATE OR ALTER Procedure [dbo].[usp_LoadDimCalendar]
+AS
+ 
+ 
+DECLARE @BeginDate date = '2022-01-01';
+DECLARE @EndDate date = '2030-12-31';
+ 
+BEGIN
+ 
+BEGIN
+Truncate table [dwh].[DimCalendrier]
+END
+ 
+BEGIN
+ 
+WITH [Source] as(    
+	select @BeginDate as [Date]
+    union all
+	select dateadd(day, 1, [Date]) as [Date]
+    from [Source]
+    where [Date] < @EndDate)
+ 
+ 
+INSERT  [dwh].[DimCalendrier]
+           ([IdCalendar]
+           ,[Date]
+           ,[Day]
+           ,[Month]
+           ,[Year]
+           ,[YearMonth]
+           ,[MonthName]
+           ,[DayName]
+           ,[DayOfWeek]
+           ,[DayOfYear]
+           ,[Quarter])
+ 
+select cast(convert(char(8), [Date], 112) as int) as [IdCalendar]
+    , [Date]
+    , datepart(day, [Date]) as [Day]
+    , datepart(month, [Date]) as [Month]
+    , datepart(year, [Date]) as [Year]
+	, concat(datepart(year, [Date]),'-',RIGHT('0'+CAST(datepart(month, [Date]) AS VARCHAR(2)),2))  [YearMonth]
+	, format([Date],'MMMM','fr-fr') as [MonthName]
+	, format([Date],'dddd','fr-fr') as [DayName]
+    , datepart(weekday, [Date]) as [DayOfWeek]
+    , datepart(dayofyear, [Date]) as [DayOfYear]
+    , datepart(quarter, [Date]) as [Quarter]
+	, TRY_CAST(Concat(RIGHT(datepart(year, [Date]),2),RIGHT('0'+CAST(datepart(month, [Date]) AS VARCHAR(2)),2)) as int) as [YearMonthOrder]
+	, CONCAT(LEFT(format([Date],'MMMM','fr-fr'),4),'.',RIGHT(datepart(year, [Date]),2)) as [YearMonthLabel]
+    from [Source] 
+    option (maxrecursion 0)
+ 
+ 
+END
+ 
+END
+GO
+ 
